@@ -1,12 +1,17 @@
-import { getCustomRepository } from 'typeorm';
-import User from '../typeorm/entities/User';
-import UsersRepository from '../typeorm/repositories/UsersRepository';
+import { IPaginateUser } from './../domain/models/IPaginateUser';
+import { inject, injectable } from 'tsyringe';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
+@injectable()
 class ListUserService {
-  public async execute(): Promise<User[]> {
-    const usersRepositry = getCustomRepository(UsersRepository);
-
-    const users = await usersRepositry.find();
+  constructor(
+    @inject('UsersRepository') private usersRepository: IUsersRepository,
+  ) {}
+  public async execute(
+    search = '',
+    sortFiled = 'name',
+  ): Promise<IPaginateUser> {
+    const users = await this.usersRepository.findAllPaginate(search, sortFiled);
 
     return users;
   }
