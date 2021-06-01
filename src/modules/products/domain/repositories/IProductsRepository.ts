@@ -1,16 +1,17 @@
-import { IUpdateStockProduct } from './../models/IUpdateStockProduct';
-import { ICreateProduct } from './../models/ICreateProduct';
+import { IProduct } from '../models/IProduct';
 import { IFindProducts } from '../models/IFindProducts';
-import { IProduct } from './../models/IProduct';
+import { ICreateProduct } from '../models/ICreateProduct';
+import { IUpdateStockProduct } from '../models/IUpdateStockProduct';
+import { IProductPaginate } from '../models/IProductPaginate';
 
 export interface IProductsRepository {
   findByName(name: string): Promise<IProduct | undefined>;
-  findOne(id: string): Promise<IProduct | undefined>;
-  findAllByIds(products: IFindProducts[]): Promise<IProduct[]>;
+  findById(id: string): Promise<IProduct | undefined>;
   findAll(): Promise<IProduct[]>;
-  find(): Promise<IProduct[]>;
+  findAllPaginate(): Promise<IProductPaginate>;
+  findAllByIds(products: IFindProducts[]): Promise<IProduct[]>;
   create(data: ICreateProduct): Promise<IProduct>;
-  save(products: IProduct): Promise<IProduct>;
-  remove(product: IProduct): Promise<void>;
+  save(product: IProduct): Promise<IProduct>;
   updateStock(products: IUpdateStockProduct[]): Promise<void>;
+  remove(product: IProduct): Promise<void>;
 }
